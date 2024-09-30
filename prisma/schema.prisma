@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id             String   @id @unique @default("1")
+  failedAttempts Int
+  lastLogin      DateTime
+  updatedAt      DateTime @updatedAt
+}
+
+enum EAiModel {
+  GPT_4
+  GPT_4_TURBO
+  GPT_3_5_TURBO
+}
+
+model AiConfig {
+  id              String   @id @unique @default("1")
+  aiModel         EAiModel
+  instructions    String
+  unTruthfulCount Int      @default(0)
+}
+
+enum EInfoStatus {
+  info
+  warning
+  error
+}
+
+model Info {
+  id          String      @id @unique @default("1")
+  status      EInfoStatus
+  description String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
