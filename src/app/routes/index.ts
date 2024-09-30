@@ -12,11 +12,11 @@ const moduleRoutes = [
     route: AuthRoutes,
   },
   {
-    path: 'ai-config',
+    path: '/ai-config',
     route: AiConfigRoutes,
   },
   {
-    path: 'info',
+    path: '/info',
     route: InfoRoutes,
   },
 ];

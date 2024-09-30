@@ -1,11 +1,10 @@
+"use strict";
 // import axios from 'axios';
 // import httpStatus from 'http-status';
 // import config from '../config';
 // import ApiError from '../errors/ApiError';
 // import { EPaymentType } from '../interfaces/common';
-
 // const PAYSTACK_SECRET_KEY = config.paystackPaymentApiKey;
-
 // // Function to initiate a payment
 // export const initiatePayment = async (
 //   amount: number,
@@ -47,7 +46,6 @@
 //     throw new ApiError(httpStatus.BAD_REQUEST, 'something wrong happen');
 //   }
 // };
-
 // // Function to verify a payment
 // export const verifyPayment = async (reference: string) => {
 //   const response = await axios.get(
@@ -59,6 +57,5 @@
 //       },
 //     }
 //   );
-
 //   return response.data;
 // };

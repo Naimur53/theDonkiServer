@@ -18,6 +18,6 @@ router.patch(
   validateRequest(InfoValidation.updateValidation),
   InfoController.updateInfo
 );
-router.delete('/:id', InfoController.deleteInfo);
+router.delete('/', InfoController.deleteInfo);
 
 export const InfoRoutes = router;

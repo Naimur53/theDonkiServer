@@ -1,13 +1,10 @@
+"use strict";
 // import * as OneSignal from 'onesignal-node';
 // import { CreateNotificationBody } from 'onesignal-node/lib/types';
 // import config from '../config';
-
 // const client = new OneSignal.Client(config.oneSignalID, config.oneSignalApi);
-
 // // Define notification content
-
 // // Send the notification
-
 // const sendNotification = async ({ message }: { message: string }) => {
 //   const notification: CreateNotificationBody = {
 //     contents: {

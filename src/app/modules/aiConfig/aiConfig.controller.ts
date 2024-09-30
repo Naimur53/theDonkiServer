@@ -46,11 +46,11 @@ const increaseTruthfulCount: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const result = await AiConfigService.increaseTruthfulCount();
 
-    sendResponse<AiConfig>(res, {
+    sendResponse<{ unTruthfulCount: number | undefined }>(res, {
       statusCode: httpStatus.OK,
       success: true,
       message: 'Dislike added!',
-      data: result,
+      data: { unTruthfulCount: result?.unTruthfulCount },
     });
   }
 );

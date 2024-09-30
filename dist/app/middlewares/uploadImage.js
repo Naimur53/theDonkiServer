@@ -1,10 +1,10 @@
+"use strict";
 // import { UploadApiResponse, v2 as cloudinary } from 'cloudinary';
 // import { NextFunction, Request, Response } from 'express';
 // import { UploadedFile } from 'express-fileupload';
 // import httpStatus from 'http-status';
 // import config from '../../config';
 // import ApiError from '../../errors/ApiError';
-
 // // cloudinary config
 // cloudinary.config({
 //   cloud_name: config.cloudName,
@@ -12,26 +12,26 @@
 //   api_secret: config.cloudApiSecret,
 //   secure: true,
 // });
-
-// const uploadVideo = async (
+// const uploadImage = async (
 //   req: Request,
 //   res: Response,
 //   next: NextFunction
 // ): Promise<void> => {
 //   try {
-//     if (!req.files || !req.files.video) {
-//       throw new ApiError(httpStatus.BAD_REQUEST, 'Video file not found!');
+//     console.log()
+//     if (!req.files || !req.files.image) {
+//       throw new ApiError(httpStatus.BAD_REQUEST, 'Image file not found!');
 //     }
-//     if (Array.isArray(req.files.video)) {
+//     if (Array.isArray(req.files.image)) {
 //       throw new ApiError(
 //         httpStatus.BAD_REQUEST,
 //         'You can only upload one image at a time'
 //       );
 //     }
-//     // if (!req.files.image?.mimetype?.includes('image')) {
-//     //   throw new ApiError(httpStatus.BAD_REQUEST, 'You can only upload image');
-//     // }
-//     const file = req.files.video as UploadedFile;
+//     if (!req.files.image?.mimetype?.includes('image')) {
+//       throw new ApiError(httpStatus.BAD_REQUEST, 'You can only upload image');
+//     }
+//     const file = req.files.image as UploadedFile;
 //     const publicId =
 //       'myfolder/images/' + file.name.split('.')[0] + '_' + Date.now();
 //     const result = await uploadToCloudinary(file, publicId);
@@ -41,7 +41,6 @@
 //     next(e);
 //   }
 // };
-
 // async function uploadToCloudinary(file: UploadedFile, publicId: string) {
 //   return new Promise<UploadApiResponse>((resolve, reject) => {
 //     cloudinary.uploader
@@ -58,5 +57,4 @@
 //       });
 //   });
 // }
-
-// export default uploadVideo;
+// export default uploadImage;

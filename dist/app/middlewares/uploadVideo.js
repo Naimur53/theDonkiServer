@@ -1,10 +1,10 @@
+"use strict";
 // import { UploadApiResponse, v2 as cloudinary } from 'cloudinary';
 // import { NextFunction, Request, Response } from 'express';
 // import { UploadedFile } from 'express-fileupload';
 // import httpStatus from 'http-status';
 // import config from '../../config';
 // import ApiError from '../../errors/ApiError';
-
 // // cloudinary config
 // cloudinary.config({
 //   cloud_name: config.cloudName,
@@ -12,7 +12,6 @@
 //   api_secret: config.cloudApiSecret,
 //   secure: true,
 // });
-
 // const uploadVideo = async (
 //   req: Request,
 //   res: Response,
@@ -41,7 +40,6 @@
 //     next(e);
 //   }
 // };
-
 // async function uploadToCloudinary(file: UploadedFile, publicId: string) {
 //   return new Promise<UploadApiResponse>((resolve, reject) => {
 //     cloudinary.uploader
@@ -58,5 +56,4 @@
 //       });
 //   });
 // }
-
 // export default uploadVideo;
