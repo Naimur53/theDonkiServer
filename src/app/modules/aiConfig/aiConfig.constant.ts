@@ -1,9 +1,2 @@
-
-        export const aiConfigSearchableFields = [ 
-          
-        ];
-        export const aiConfigFilterAbleFields = [
-            
-          ];
-          
-        
+export const aiConfigSearchableFields = [];
+export const aiConfigFilterAbleFields = [];

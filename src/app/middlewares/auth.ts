@@ -7,7 +7,7 @@ import { jwtHelpers } from '../../helpers/jwtHelpers';
 
 const auth = () => async (req: Request, res: Response, next: NextFunction) => {
   try {
-    //get authorization token
+    //get authorization tokens
     const token = req.headers.authorization;
     if (!token) {
       throw new ApiError(httpStatus.UNAUTHORIZED, 'You are not authorized');
