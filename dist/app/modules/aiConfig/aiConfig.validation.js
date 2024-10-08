@@ -21,7 +21,11 @@ const updateValidation = zod_1.z.object({
         unTruthfulCount: zod_1.z.number({ required_error: 'instruction' }).optional(),
     }),
 });
+const askedValidation = zod_1.z.object({
+    question: zod_1.z.string({ required_error: 'instruction' }),
+});
 exports.AiConfigValidation = {
     createValidation,
     updateValidation,
+    askedValidation,
 };

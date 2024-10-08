@@ -10,6 +10,14 @@ const getAllAiConfig = async (): Promise<AiConfig> => {
   }
   return output;
 };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const askedQuestion = async (): Promise<any> => {
+  const output = await prisma.aiConfig.findFirst();
+  if (!output) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'AiConfig not found!');
+  }
+  return output;
+};
 
 const createAiConfig = async (payload: AiConfig): Promise<AiConfig | null> => {
   // delete all the config
@@ -60,4 +68,5 @@ export const AiConfigService = {
   getSingleAiConfig,
   deleteAiConfig,
   increaseTruthfulCount,
+  askedQuestion,
 };

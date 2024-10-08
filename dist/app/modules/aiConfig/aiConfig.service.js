@@ -23,6 +23,14 @@ const getAllAiConfig = () => __awaiter(void 0, void 0, void 0, function* () {
     }
     return output;
 });
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const askedQuestion = () => __awaiter(void 0, void 0, void 0, function* () {
+    const output = yield prisma_1.default.aiConfig.findFirst();
+    if (!output) {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'AiConfig not found!');
+    }
+    return output;
+});
 const createAiConfig = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     // delete all the config
     yield prisma_1.default.aiConfig.deleteMany();
@@ -65,4 +73,5 @@ exports.AiConfigService = {
     getSingleAiConfig,
     deleteAiConfig,
     increaseTruthfulCount,
+    askedQuestion,
 };

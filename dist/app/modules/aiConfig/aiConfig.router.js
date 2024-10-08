@@ -11,6 +11,9 @@ const aiConfig_controller_1 = require("./aiConfig.controller");
 const aiConfig_validation_1 = require("./aiConfig.validation");
 const router = express_1.default.Router();
 router.get('/', aiConfig_controller_1.AiConfigController.getAllAiConfig);
+router.post('/asked', 
+// validateRequest(AiConfigValidation.askedValidation),
+aiConfig_controller_1.AiConfigController.askedQuestion);
 router.post('/increase-untruthful-count', aiConfig_controller_1.AiConfigController.increaseTruthfulCount);
 router.post('/', (0, auth_1.default)(), (0, validateRequest_1.default)(aiConfig_validation_1.AiConfigValidation.createValidation), aiConfig_controller_1.AiConfigController.createAiConfig);
 router.patch('/', (0, auth_1.default)(), (0, validateRequest_1.default)(aiConfig_validation_1.AiConfigValidation.updateValidation), aiConfig_controller_1.AiConfigController.updateAiConfig);

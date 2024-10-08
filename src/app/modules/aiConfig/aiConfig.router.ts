@@ -7,6 +7,11 @@ const router = express.Router();
 
 router.get('/', AiConfigController.getAllAiConfig);
 router.post(
+  '/asked',
+  // validateRequest(AiConfigValidation.askedValidation),
+  AiConfigController.askedQuestion
+);
+router.post(
   '/increase-untruthful-count',
   AiConfigController.increaseTruthfulCount
 );
