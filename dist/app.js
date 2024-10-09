@@ -17,10 +17,7 @@ app.use((0, cookie_parser_1.default)());
 //parser
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
-app.use((0, express_fileupload_1.default)({
-    useTempFiles: true,
-    tempFileDir: '/tmp/',
-}));
+app.use((0, express_fileupload_1.default)());
 // const openai = createForm
 app.use('/api/v1', routes_1.default);
 //global error handler

@@ -16,12 +16,8 @@ app.use(cookieParser());
 //parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(
-  fileUpload({
-    useTempFiles: true,
-    tempFileDir: '/tmp/',
-  })
-);
+app.use(fileUpload());
+
 // const openai = createForm
 
 app.use('/api/v1', routes);

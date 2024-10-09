@@ -6,14 +6,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AiConfigRoutes = void 0;
 const express_1 = __importDefault(require("express"));
 const auth_1 = __importDefault(require("../../middlewares/auth"));
+const uploadPdf_1 = __importDefault(require("../../middlewares/uploadPdf"));
 const validateRequest_1 = __importDefault(require("../../middlewares/validateRequest"));
+const verifyRecaptch_1 = __importDefault(require("../../middlewares/verifyRecaptch"));
 const aiConfig_controller_1 = require("./aiConfig.controller");
 const aiConfig_validation_1 = require("./aiConfig.validation");
 const router = express_1.default.Router();
 router.get('/', aiConfig_controller_1.AiConfigController.getAllAiConfig);
 router.post('/asked', 
 // validateRequest(AiConfigValidation.askedValidation),
-aiConfig_controller_1.AiConfigController.askedQuestion);
+verifyRecaptch_1.default, uploadPdf_1.default, aiConfig_controller_1.AiConfigController.askedQuestion);
 router.post('/increase-untruthful-count', aiConfig_controller_1.AiConfigController.increaseTruthfulCount);
 router.post('/', (0, auth_1.default)(), (0, validateRequest_1.default)(aiConfig_validation_1.AiConfigValidation.createValidation), aiConfig_controller_1.AiConfigController.createAiConfig);
 router.patch('/', (0, auth_1.default)(), (0, validateRequest_1.default)(aiConfig_validation_1.AiConfigValidation.updateValidation), aiConfig_controller_1.AiConfigController.updateAiConfig);

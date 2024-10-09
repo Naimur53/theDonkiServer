@@ -43,54 +43,84 @@ const createAiConfig = (0, catchAsync_1.default)((req, res) => __awaiter(void 0,
 }));
 const askedQuestion = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, e_1, _b, _c;
-    var _d, _e;
-    const adminMessage = yield aiConfig_service_1.AiConfigService.getSingleAiConfig();
-    if (!adminMessage) {
-        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, 'Something went wrong please try again');
-    }
-    const systemMessage = {
-        role: 'system',
-        content: ` 
-        ${adminMessage === null || adminMessage === void 0 ? void 0 : adminMessage.instructions}
-         
-        Finally for each response you should add format  e.g., ** for bold, # for headers, etc.
-
-        `,
-    };
-    const data = req.body;
-    const info = {
-        model: (0, getModelByEnum_1.default)(adminMessage.aiModel) || 'gpt-4',
-        messages: [systemMessage, ...data.conversation],
-        stream: true, // Enable streaming
-    };
-    console.log(info);
-    const completion = yield openai.chat.completions.create({
-        model: (0, getModelByEnum_1.default)(adminMessage.aiModel) || 'gpt-4',
-        messages: [systemMessage, ...data.conversation],
-        stream: true, // Enable streaming
-    });
-    res.setHeader('Content-Type', 'text/event-stream');
-    res.setHeader('Cache-Control', 'no-cache');
-    res.setHeader('Connection', 'keep-alive');
+    var _d, _e, _f, _g;
+    console.log('form api', req.file, req.files);
     try {
-        for (var _f = true, completion_1 = __asyncValues(completion), completion_1_1; completion_1_1 = yield completion_1.next(), _a = completion_1_1.done, !_a; _f = true) {
-            _c = completion_1_1.value;
-            _f = false;
-            const part = _c;
-            const content = (_e = (_d = part.choices[0]) === null || _d === void 0 ? void 0 : _d.delta) === null || _e === void 0 ? void 0 : _e.content;
-            if (content) {
-                res.write(content);
+        // Fetch admin configuration
+        const adminMessage = yield aiConfig_service_1.AiConfigService.getSingleAiConfig();
+        if (!adminMessage) {
+            throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, 'Something went wrong, please try again');
+        }
+        // Prepare the system message
+        const systemMessage = {
+            role: 'system',
+            content: `
+    ABOUT THIS APP : Its a application for answer user questions or researching information of Bible. You name is The Donki Ai. 
+      
+    Main INSTRUCTION: ${adminMessage === null || adminMessage === void 0 ? void 0 : adminMessage.instructions}
+    
+    About USER question: user may only provide question or include pdf query too. If you found the pdf information not related to Bible book or real please politely tell them to asked about the bible.
+
+    UI INSTRUCTION : Ensure each response includes appropriate markdown formatting to enhance the display. Use ** for bold text, # for headers, > for quote, and - for lists etc as we are using react-markdown to render the UI similar to ChatGPT. Apply markdown where necessary to structure the content effectively. if react markdown supports other markup formatting that i did't mention but you can add to make the ui more readable then please add those markup too.
+        `,
+        };
+        // Extract data from request
+        const data = req.body;
+        // Define the chat request parameters
+        console.log({
+            model: (0, getModelByEnum_1.default)(adminMessage.aiModel) || 'gpt-4',
+            messages: [systemMessage, ...data.conversation],
+            stream: true, // Enable streaming
+        }, 'form api ');
+        // Call the OpenAI API
+        const completion = yield openai.chat.completions.create({
+            model: (0, getModelByEnum_1.default)(adminMessage.aiModel) || 'gpt-4',
+            messages: [systemMessage, ...data.conversation],
+            stream: true, // Enable streaming
+        });
+        // Set response headers for streaming
+        res.setHeader('Content-Type', 'text/event-stream');
+        res.setHeader('Cache-Control', 'no-cache');
+        res.setHeader('Connection', 'keep-alive');
+        try {
+            // Stream the response
+            for (var _h = true, completion_1 = __asyncValues(completion), completion_1_1; completion_1_1 = yield completion_1.next(), _a = completion_1_1.done, !_a; _h = true) {
+                _c = completion_1_1.value;
+                _h = false;
+                const part = _c;
+                const content = (_e = (_d = part.choices[0]) === null || _d === void 0 ? void 0 : _d.delta) === null || _e === void 0 ? void 0 : _e.content;
+                if (content) {
+                    res.write(content);
+                }
             }
         }
-    }
-    catch (e_1_1) { e_1 = { error: e_1_1 }; }
-    finally {
-        try {
-            if (!_f && !_a && (_b = completion_1.return)) yield _b.call(completion_1);
+        catch (e_1_1) { e_1 = { error: e_1_1 }; }
+        finally {
+            try {
+                if (!_h && !_a && (_b = completion_1.return)) yield _b.call(completion_1);
+            }
+            finally { if (e_1) throw e_1.error; }
         }
-        finally { if (e_1) throw e_1.error; }
+        // End the streaming response
+        res.end();
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
     }
-    res.end();
+    catch (error) {
+        // Error handling for OpenAI API issues
+        if (((_f = error.response) === null || _f === void 0 ? void 0 : _f.status) === 429) {
+            // Quota limit reached or rate limit error
+            throw new ApiError_1.default(http_status_1.default.TOO_MANY_REQUESTS, 'Quota exceeded or too many requests, please try again later.');
+        }
+        else if (((_g = error.response) === null || _g === void 0 ? void 0 : _g.status) === 401) {
+            // Invalid API key or authentication error
+            throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, 'Invalid API key or authentication failed.');
+        }
+        else {
+            // Handle any other errors
+            console.error('OpenAI API error:', error);
+            throw new ApiError_1.default(http_status_1.default.INTERNAL_SERVER_ERROR, 'An error occurred while processing the request.');
+        }
+    }
 }));
 const getAllAiConfig = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield aiConfig_service_1.AiConfigService.getAllAiConfig();
