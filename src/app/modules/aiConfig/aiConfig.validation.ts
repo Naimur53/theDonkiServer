@@ -20,7 +20,12 @@ const updateValidation = z.object({
   }),
 });
 const askedValidation = z.object({
-  question: z.string({ required_error: 'instruction' }),
+  conversation: z.array(
+    z.object({
+      role: z.enum(['user', 'assistant'] as [string, ...string[]]),
+      content: z.string({ required_error: 'content is  in required' }),
+    })
+  ),
 });
 export const AiConfigValidation = {
   createValidation,
